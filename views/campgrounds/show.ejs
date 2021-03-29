@@ -1,0 +1,61 @@
+<%- (include('../partials/header')) %>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-3">
+      <p class="lead">YelpCamp</p>
+        <div class="list-group">
+          <li class="list-group-item active">Info 1</li>
+          <li class="list-group-item">Info 2</li>
+          <li class="list-group-item">Info 3</li>
+        </div>
+    </div>
+    <div class="col-lg-9">
+      <div class="thumbnail">
+        <img class="img-responsive"  src="<%=campgrounds.image%>" >  
+        <div class="caption-full">
+          <h4 class="pull-right">$9.00/night</h4>
+          <h4><a href=""><%=campgrounds.name%></a></h4>
+          <p> <%=campgrounds.description%> </p>
+          <p> <em>Submitted by <%=campgrounds.author.username %></em></p>
+          <% if(currentUser && campgrounds.author.id.equals(currentUser._id)) { %>
+            <a  class="btn btn-warning" href="/campgrounds/<%= campgrounds._id %>/edit"> Edit </a>
+            <form class="del" action="/campgrounds/<%=campgrounds._id%>?_method=DELETE" method="POST">
+              <button class="btn btn-danger">Delete</button>
+            </form> 
+          <% } %>
+        </div>
+      </div>
+      <div class="well">
+        <div class="text-right">
+          <a class="btn btn-blue" href="/campgrounds/<%=campgrounds._id%>/comment/new">Add New comment</a>
+        </div>
+        <hr>
+        <% campgrounds.comments.forEach((c) => { %>
+          <div class="row">
+            <div class="col-md-12">
+              <b><%= c.author.username %></b>
+              <span class="pull-right">10 days ago</span>
+              <p> <%= c.text %> </p>
+            </div>
+          <% if(currentUser && c.author.id.equals(currentUser._id)) { %>
+
+            <form class="del" action="/campgrounds/<%=campgrounds._id%>/comment/<%=c._id%>?_method=DELETE" method="POST">
+              <button class="btn btn-danger pull-right">Delete</button>
+            </form>
+            <a class="btn btn-xs btn-warning pull-right" href="/campgrounds/<%=campgrounds._id%>/comment/<%= c._id %>/edit">Edit</a>
+          <% } %>
+          </div>
+          <br>
+        <% }) %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<%- (include('../partials/footer')) %>
+

@@ -1,0 +1,11 @@
+<h2>Admin</h2>
+
+
+<% User.forEach(function(u) { %>
+  <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 col-xs-6 ">
+      <div  class="thumbnail">
+        <h6>List of usernames</h6>
+         <h4 style="text-align: left;"> <%= u.username %> </h4> 
+      </div>
+  </div>
+<% }) %>

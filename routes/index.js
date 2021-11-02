@@ -1,4 +1,6 @@
 var express = require("express")
+var User    = require("../views/models/user");
+
 var router  = express.Router();
 
 
@@ -6,6 +8,15 @@ router.get("/",function(req, res){
   res.render("landing");
 })
 
+router.get("/admin",(req,res) => {
+  User.find({},(err, allUsers)=>{
+    if(err){
+      console.log(err);
+    } else{
+      res.render("admin",{User:allUsers});  
+    }
+  });
+})
 
 router.get("/register", (req, res) => {
   res.render("register")

@@ -1,4 +1,5 @@
 var express=require("express");
+const logger = require("./logger");
 var app           = express();
     bodyParser    = require("body-parser"),
     mongoose      = require("mongoose"),
@@ -45,11 +46,21 @@ app.use((req, res, next) => {
 })
 
 app.set("view engine","ejs");
+app.use((req, res, next) => {
+  logger.info(req.body);
+  let oldSend = res.send;
+  res.send = function(data){
+    logger.info(data);
+    oldSend.apply(res, arguments);
+  }
+  next();
+})
+
 app.use(indexRoutes);
 app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/comment",commentRoutes);
 
 
 app.listen(1234,function() {
-    console.log("Server Listening 1234");
+    logger.log('info',"Server Listening 1234");
 })
